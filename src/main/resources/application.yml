@@ -7,3 +7,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   thymeleaf:
     cache: false
+
+PSP:
+  toss:
+    secret-key: ${TOSS_SECRET_KEY}
+    url: https://api.tosspayments.com
