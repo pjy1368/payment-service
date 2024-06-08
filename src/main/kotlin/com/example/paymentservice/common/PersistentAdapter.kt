@@ -1,4 +1,4 @@
-package com.example.paymentservice.payment.adapter.`in`.web.common
+package com.example.paymentservice.common
 
 import org.springframework.stereotype.Component
 

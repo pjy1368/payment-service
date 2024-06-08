@@ -1,7 +1,7 @@
 package com.example.paymentservice.payment.adapter.`in`.web.view
 
-import com.example.paymentservice.payment.adapter.`in`.web.common.IdempotencyCreator
-import com.example.paymentservice.payment.adapter.`in`.web.common.WebAdapter
+import com.example.paymentservice.common.IdempotencyCreator
+import com.example.paymentservice.common.WebAdapter
 import com.example.paymentservice.payment.adapter.`in`.web.request.CheckoutRequest
 import com.example.paymentservice.payment.application.port.`in`.CheckoutCommand
 import com.example.paymentservice.payment.application.port.`in`.CheckoutUseCase

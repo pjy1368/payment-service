@@ -1,6 +1,6 @@
 package com.example.paymentservice.payment.adapter.out.web.product
 
-import com.example.paymentservice.payment.adapter.`in`.web.common.WebAdapter
+import com.example.paymentservice.common.WebAdapter
 import com.example.paymentservice.payment.application.port.out.LoadProductPort
 import com.example.paymentservice.payment.domain.Product
 import reactor.core.publisher.Flux
