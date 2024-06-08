@@ -20,15 +20,14 @@ class TossPaymentController(
 ) {
 
     @PostMapping("/confirm")
-    fun confirm(@RequestBody request: TossPaymentConfirmRequest): Mono<ResponseEntity<ApiResponse<String>>> {
+    suspend fun confirm(@RequestBody request: TossPaymentConfirmRequest): ResponseEntity<ApiResponse<String>> {
         return tossPaymentExecutor.execute(
             paymentKey = request.paymentKey,
             orderId = request.orderId,
             amount = request.amount.toString()
-        ).map {
-            ResponseEntity.ok().body(
-                ApiResponse.with(HttpStatus.OK, "Ok", it)
-            )
+        ).let {
+            ResponseEntity.ok()
+                .body(ApiResponse.with(HttpStatus.OK, "Ok", it))
         }
     }
 }

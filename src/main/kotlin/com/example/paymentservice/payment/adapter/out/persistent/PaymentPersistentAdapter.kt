@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 class PaymentPersistentAdapter (
     private val paymentRepository: PaymentRepository
 ): SavePaymentPort {
-    override fun save(paymentEvent: PaymentEvent): Mono<Void> {
-        return paymentRepository.save(paymentEvent)
+    override suspend fun save(paymentEvent: PaymentEvent) {
+        paymentRepository.save(paymentEvent)
     }
 }

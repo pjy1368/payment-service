@@ -5,10 +5,9 @@ import com.example.paymentservice.common.WebAdapter
 import com.example.paymentservice.payment.adapter.`in`.web.request.CheckoutRequest
 import com.example.paymentservice.payment.application.port.`in`.CheckoutCommand
 import com.example.paymentservice.payment.application.port.`in`.CheckoutUseCase
-import net.sf.jsqlparser.Model
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import reactor.core.publisher.Mono
 
 @WebAdapter
 @Controller
@@ -17,7 +16,7 @@ class CheckoutController (
 ) {
 
     @GetMapping("/")
-    fun checkoutPage(request: CheckoutRequest, model: org.springframework.ui.Model): Mono<String> {
+    suspend fun checkoutPage(request: CheckoutRequest, model: Model): String {
         val command = CheckoutCommand(
             cartId = request.cartId,
             buyerId = request.buyerId,
@@ -26,7 +25,7 @@ class CheckoutController (
         )
 
         return checkoutUseCase.checkout(command)
-            .map {
+            .let {
                 model.addAttribute("orderId", it.orderId)
                 model.addAttribute("orderName", it.orderName)
                 model.addAttribute("amount", it.amount)

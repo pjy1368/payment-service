@@ -6,7 +6,6 @@ import com.example.paymentservice.payment.application.port.`in`.CheckoutUseCase
 import com.example.paymentservice.payment.application.port.out.LoadProductPort
 import com.example.paymentservice.payment.application.port.out.SavePaymentPort
 import com.example.paymentservice.payment.domain.*
-import reactor.core.publisher.Mono
 
 @UseCase
 class CheckoutService(
@@ -14,18 +13,16 @@ class CheckoutService(
     private val savePaymentPort: SavePaymentPort
 ) : CheckoutUseCase {
 
-    override fun checkout(command: CheckoutCommand): Mono<CheckoutResult> {
-        return loadProductPort.getProducts(command.cartId, command.productIds)
-            .collectList()
-            .map { createPaymentEvent(command, it) }
-            .flatMap { savePaymentPort.save(it).thenReturn(it) }
-            .map {
-                CheckoutResult(
-                    amount = it.totalAmount(),
-                    orderId = it.orderId,
-                    orderName = it.orderName
-                )
-            }
+    override suspend fun checkout(command: CheckoutCommand): CheckoutResult {
+        val products = loadProductPort.getProducts(command.cartId, command.productIds)
+        val paymentEvent = createPaymentEvent(command, products)
+        savePaymentPort.save(paymentEvent)
+
+        return CheckoutResult(
+            amount = paymentEvent.totalAmount(),
+            orderId = paymentEvent.orderId,
+            orderName = paymentEvent.orderName
+        )
     }
 
     private fun createPaymentEvent(command: CheckoutCommand, products: List<Product>): PaymentEvent {
